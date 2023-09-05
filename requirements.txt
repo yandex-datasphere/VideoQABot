@@ -1,0 +1,9 @@
+attrs
+flask
+langchain
+sentence_transformers
+lancedb
+unstructured
+requests
+pandas
+yandex-speechkit
