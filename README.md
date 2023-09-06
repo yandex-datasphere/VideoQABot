@@ -24,7 +24,6 @@
 1. Получить доступ к Яндекс-облаку - например, в рамках [пробного периода](https://cloud.yandex.ru/docs/free-trial/)
 1. Создать в облаке объектное хранилище s3 (в рамках мастер-класса используется имя `s3store`)
 1. Создать в облаке [сервисный аккаунт](https://cloud.yandex.ru/docs/iam/concepts/users/service-accounts), имеющий доступ к SpeechKit, YandexGPT и объектному хранилищу, а затем создать [API-ключ](https://cloud.yandex.ru/docs/iam/concepts/authorization/api-key) ([инструкция](https://cloud.yandex.ru/docs/iam/operations/api-key/create)), и параметры этого ключа прописать в файле [config.json](config.json). Также потребуется [создать статический ключ доступа](https://cloud.yandex.ru/docs/iam/operations/sa/create-access-key).
-1. Создать виртуальную машину в 
 
 ## Пошаговая инструкция
 
