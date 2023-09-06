@@ -1,11 +1,7 @@
 {
     "folder_id" : "b1g6krtrd2vcbunvjpg6",
-    "yagpt" : {
-        "api_id" : "ajeslpkrsoj1jl3dt4a6",
-        "api_key" : "AQVN3K5pvmJhnUbekUYpg6R1DTpQAph-uwOpo4rA"
-    },
-    "speechkit" : {
-        "api_id" : "aje4hgb598vsqu6n7uav",
-        "api_key" : "AQVNxIwWVKP8141z-V9xzd8kP4gZ0wclLL_hw09F"
-    }
+    "api_id" : "ajeo4jge3h1hgvok9eai",
+    "api_key" : "AQVN2CTg4cQxh_FEuVKtgjgvxM38dYutiqtecH0M",
+    "telegram_token" : "6599430677:AAHQcCsvOJJ17Bg6ym_dTEzad62ay_03qVc",
+    "self_url": "https://ya.eazify.net:8443"
 }

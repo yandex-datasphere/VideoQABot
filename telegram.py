@@ -9,14 +9,10 @@ import uuid
 from speechkit import model_repository, configure_credentials, creds
 from speechkit.stt import AudioProcessingType
 
-telegram_token = "6599430677:AAHQcCsvOJJ17Bg6ym_dTEzad62ay_03qVc"
-self_url = "https://ya.eazify.net:8443"
-
 cert = "/home/vmuser/cert/fullchain.pem"
 cert_key = "/home/vmuser/cert/privkey.pem"
 temp_dir = "/home/vmuser/temp"
 db_dir = "/home/vmuser/store"
-
 send_audio = True
 
 app = Flask(__name__)
@@ -94,9 +90,13 @@ def telegram_hook():
 print(" + Reading config")
 with open('config.json') as f:
     config = json.load(f)
+self_url = config['self_url']
+api_key = config['api_key']
+telegram_token = config['telegram_token']
+folder_id = config['folder_id']
 
 print(" + Initializing LanceDB Vector Store")
-embedding = YaGPTEmbeddings(config['folder_id'],config['yagpt']['api_key'])
+embedding = YaGPTEmbeddings(folder_id,api_key)
 lance_db = lancedb.connect(db_dir)
 table = lance_db.open_table("vector_index")
 vec_store = LanceDB(table, embedding)
@@ -108,7 +108,7 @@ print(" + Initializing LLM Chains")
 instructions = """
 Представь себе, что ты сотрудник Yandex Cloud. Твоя задача - вежливо и по мере своих сил отвечать на все вопросы собеседника.
 """
-llm = YandexLLM(api_key=config['yagpt']['api_key'], folder_id=config['folder_id'],
+llm = YandexLLM(api_key=api_key, folder_id=folder_id,
                 instruction_text = instructions)
 document_prompt = langchain.prompts.PromptTemplate(
     input_variables=["page_content"], template="{page_content}"
@@ -135,9 +135,7 @@ chain = langchain.chains.StuffDocumentsChain(
 )
 
 print(" + Configuring speech")
-configure_credentials(
-   yandex_credentials=creds.YandexCredentials(
-      api_key=config['speechkit']['api_key']))
+configure_credentials(yandex_credentials=creds.YandexCredentials(api_key=api_key))
 
 #print(" + Registering telegram hook")
 #res = requests.post(f"https://api.telegram.org/bot{telegram_token}/setWebhook",json={ "url" : f"{self_url}/tghook" })
