@@ -7,3 +7,5 @@ unstructured
 requests
 pandas
 yandex-speechkit
+yandex_chain
+yandexcloud

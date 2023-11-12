@@ -4,7 +4,7 @@ import json
 from langchain.vectorstores import LanceDB
 import lancedb
 import langchain
-from YaGPT import YaGPTEmbeddings, YandexLLM
+from yandex_chain import YandexEmbeddings, YandexLLM
 import uuid 
 from speechkit import model_repository, configure_credentials, creds
 from speechkit.stt import AudioProcessingType
@@ -96,7 +96,7 @@ telegram_token = config['telegram_token']
 folder_id = config['folder_id']
 
 print(" + Initializing LanceDB Vector Store")
-embedding = YaGPTEmbeddings(folder_id,api_key)
+embedding = YandexEmbeddings(folder_id=folder_id,api_key=api_key)
 lance_db = lancedb.connect(db_dir)
 table = lance_db.open_table("vector_index")
 vec_store = LanceDB(table, embedding)
@@ -106,7 +106,7 @@ retriever = vec_store.as_retriever(
 
 print(" + Initializing LLM Chains")
 instructions = """
-Представь себе, что ты сотрудник Yandex Cloud. Твоя задача - вежливо и по мере своих сил отвечать на все вопросы собеседника.
+Представь себе, что ты сотрудник салона магазина электроники. Твоя задача - вежливо и по мере своих сил отвечать на все вопросы собеседника.
 """
 llm = YandexLLM(api_key=api_key, folder_id=folder_id,
                 instruction_text = instructions)
@@ -116,13 +116,13 @@ document_prompt = langchain.prompts.PromptTemplate(
 # Промпт для языковой модели
 document_variable_name = "context"
 stuff_prompt_override = """
-Пожалуйста, посмотри на текст ниже и ответь на вопрос, используя информацию из этого текста.
+Пожалуйста, посмотри на текст ниже и ответь на вопрос в тройных обратных кавычках, используя информацию из этого текста.
 Текст:
 -----
 {context}
 -----
 Вопрос:
-{query}"""
+```{query}```"""
 prompt = langchain.prompts.PromptTemplate(
     template=stuff_prompt_override, input_variables=["context", "query"]
 )
